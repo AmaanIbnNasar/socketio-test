@@ -27,9 +27,12 @@ export const useSocket = (socketMessage: string) => {
   const [data, setData] = useState(null);
   useEffect(() => {
     const socket = socketIOClient(baseUrl);
-    socket.on(socketMessage, (resp) => {
-      setData(resp);
-    });
-  }, [socketMessage]);
+    socket.connect();
+    socket.on(socketMessage, setData);
+    console.log(socketMessage, data);
+    return () => {
+      socket.disconnect();
+    };
+  });
   return [data];
 };
