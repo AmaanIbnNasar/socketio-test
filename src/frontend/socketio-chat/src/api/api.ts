@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import socketIOClient from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 
-export const baseUrl = 'http://localhost:3001';
+export const BASE_URL = 'http://localhost:3001';
 
 export const useApi = (endpoint: string) => {
   const [data, setData] = useState(null);
@@ -9,7 +9,7 @@ export const useApi = (endpoint: string) => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await (fetch(baseUrl + endpoint));
+        const resp = await (fetch(BASE_URL + endpoint));
         if (!(resp.status >= 200 && resp.status < 300)) {
           throw new Error(`status code: ${resp.status}`);
         }
@@ -23,10 +23,9 @@ export const useApi = (endpoint: string) => {
   return [data, setData];
 };
 
-export const useSocket = (socketMessage: string) => {
+export const useSocket = (socket: Socket, socketMessage: string) => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    const socket = socketIOClient(baseUrl);
     socket.connect();
     socket.on(socketMessage, setData);
     console.log(socketMessage, data);

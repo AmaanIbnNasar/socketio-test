@@ -1,0 +1,7 @@
+.login-box {
+  width: min(500px, calc(100vw - 15px));
+}
+
+.login-page {
+  min-height: calc(100vh - 56px);
+}

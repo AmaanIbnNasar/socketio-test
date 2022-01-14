@@ -1,12 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './screens/HomePage';
+import StateProvider from './state/StateProvider';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-    </Routes>
+    <StateProvider>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </StateProvider>
   );
 }
 

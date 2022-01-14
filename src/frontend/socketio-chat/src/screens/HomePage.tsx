@@ -1,19 +1,16 @@
 import React from 'react';
-import { useSocket } from '../api/api';
+import { useAppState } from '../state/StateContext';
+import LoginPage from './LoginPage';
+import LandingPage from './OldHomePage';
 
-function HomePage() {
-  const [data] = useSocket('FromAPI');
-  const [userMessage] = useSocket('chatMessage');
+const HomePage: React.FC = () => {
+  const { user } = useAppState();
+  console.log(user.userName);
   return (
-    <>
-      <div className="container">
-        {data}
-      </div>
-      <div>
-        {userMessage}
-      </div>
-    </>
+    <div>
+      {user.userName ? <LandingPage /> : <LoginPage />}
+    </div>
   );
-}
+};
 
 export default HomePage;
