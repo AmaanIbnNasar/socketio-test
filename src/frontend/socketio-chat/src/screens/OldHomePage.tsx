@@ -8,11 +8,11 @@ import { useAppState } from '../state/StateContext';
 
 function LandingPage() {
   const { socket: { socket } } = useAppState();
-  const userId = `USER ${new Date()}`;
+  const { user } = useAppState();
+  const username = user.userName;
   const [data] = useSocket(socket, 'FromAPI');
   const [userMessage] = useSocket(socket, 'chatMessage');
   const [joined, setJoined] = useState(false);
-  console.log(socket);
   const handleInviteAccepted = useCallback(() => {
     setJoined(true);
   }, []);
@@ -22,14 +22,14 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
-    socket.emit('USER_ONLINE', userId);
+    socket.emit('USER_ONLINE', username);
 
     socket.on('JOIN_REQUEST_ACCEPTED', handleInviteAccepted);
 
     return () => {
       socket.off('JOIN_REQUEST_ACCEPTED', handleInviteAccepted);
     };
-  }, [socket, userId, handleInviteAccepted]);
+  }, [socket, username, handleInviteAccepted]);
   return (
     <>
       <div>
@@ -41,7 +41,7 @@ function LandingPage() {
             </button>
           </CentreBox>
         ) : (
-          <Chat />
+          <Chat key="chat" />
         )}
       </div>
       <div className="container">

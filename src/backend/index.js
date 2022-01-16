@@ -14,11 +14,11 @@ io.on('connection', (socket) => {
     console.log("JOIN REQUEST")
     io.emit("JOIN_REQUEST_ACCEPTED")
   })
-  socket.on('chatMessage', msg => {
-    console.log(msg)
-    io.emit("chatMessage", msg);
+  socket.on('CHAT_MESSAGE', msg => {
+    console.log("MESSAGE: " + msg)
+    // io.emit("CHAT_MESSAGE", msg);
+    socket.broadcast.emit("CHAT_MESSAGE", msg)
   });
-
   // if (interval) {
   //   clearInterval(interval);
   // }
